@@ -56,12 +56,11 @@ f. Roles:
 After creation, confirm that the environment is **Green**.
 ________________________________________
 ## 3. CodeBuild Project
-Setting	Value
-Source	No source
-Artifacts	CodePipeline
-Environment	Managed image → Amazon Linux 2 → aws/codebuild/standard:7.0 → Python 3.11
-Buildspec	Use the buildspec.yml file (CodeBuild will read it from the input artifact)
-Project Name	pdf-compress-build
+Source:  No source <br>
+Artifacts:	CodePipeline <br>
+Environment:  Managed image → Amazon Linux → Python <br>
+Buildspec:  Use the buildspec.yml file (CodeBuild will read it from the input artifact)
+Project Name:  pdf-compress-build
 ________________________________________
 ## 4. CodePipeline Setup
 a.	Console → CodePipeline → Create pipeline <br>
