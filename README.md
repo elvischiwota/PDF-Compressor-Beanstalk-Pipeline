@@ -12,12 +12,16 @@ Create a new GitHub repository (e.g., pdf-compress-beanstalk-pipeline) with the 
 ├─ Procfile
 └─ buildspec.yml
 ```
-Procfile
+##Procfile
+```bash
 web: gunicorn app:app
-buildspec.yml
-(Option 1 — Let CodePipeline package files; no zip step)
-version: 0.2
+```
 
+## buildspec.yml
+Let CodePipeline package files
+
+```bash
+version: 0.2
 phases:
   install:
     runtime-versions:
@@ -35,22 +39,19 @@ artifacts:
     - requirements.txt
     - Procfile
     - templates/**/*
+```
+
 Commit and push to your GitHub repo/branch.
 ________________________________________
-☁️ A2. Elastic Beanstalk Setup (One-Time)
+## Elastic Beanstalk Setup (One-Time)
 1.	Go to AWS Console → Elastic Beanstalk → Create environment → Web server environment
-
 2.	Platform: Python
-
 3.	Application name: pdf-compress
-
 4.	Environment name: pdf-compress-env
-
 5.	Application code: “Sample application” (for first launch)
-
 6.	Roles:
-o	Service role: aws-elasticbeanstalk-service-role
-o	EC2 instance profile: aws-elasticbeanstalk-ec2-role
+  o	Service role: aws-elasticbeanstalk-service-role
+  o	EC2 instance profile: aws-elasticbeanstalk-ec2-role
 ✅ After creation, confirm that the environment is Green.
 ________________________________________
 🔧 A4. CodeBuild Project
