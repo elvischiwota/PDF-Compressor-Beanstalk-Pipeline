@@ -1,17 +1,21 @@
-Beanstalk via CodePipeline + CodeBuild
-Gotcha. Here’s the streamlined, end-to-end setup using Option 1 (no manual zip in buildspec).
-1. Create a new repo
-Create a fresh repo (e.g., pdf-compress-beanstalk-pipeline) with this layout:
-.
+## Beanstalk via CodePipeline + CodeBuild
+This guide provides a streamlined, end-to-end setup for deploying a Python web app to AWS Elastic Beanstalk using CodePipeline and CodeBuild.
+________________________________________
+## 1. Create a New Repository
+Create a new GitHub repository (e.g., pdf-compress-beanstalk-pipeline) with the following structure:
+
+```bash
 ├─ app.py
 ├─ requirements.txt
 ├─ templates/
 │  └─ index.html
 ├─ Procfile
 └─ buildspec.yml
+```
 Procfile
 web: gunicorn app:app
-buildspec.yml (Option 1: let CodePipeline package files—no zip step)
+buildspec.yml
+(Option 1 — Let CodePipeline package files; no zip step)
 version: 0.2
 
 phases:
@@ -31,35 +35,51 @@ artifacts:
     - requirements.txt
     - Procfile
     - templates/**/*
-Commit & push to your GitHub repo/branch.
+Commit and push to your GitHub repo/branch.
+________________________________________
+☁️ A2. Elastic Beanstalk Setup (One-Time)
+1.	Go to AWS Console → Elastic Beanstalk → Create environment → Web server environment
 
-2. Elastic Beanstalk (one-time)
-a.	AWS Console → Elastic Beanstalk → Create environment → Web server environment
-b.	Platform: Python
-c.	Application name: pdf-compress
-d.	Environment name: pdf-compress-env
-e.	Application code: “Sample application” (just for first launch)
-f.	Roles:
-    o	Service role: aws-elasticbeanstalk-service-role
-    o	EC2 instance profile: aws-elasticbeanstalk-ec2-role
-   
-After creation, confirm the env is Green.
- 
-3. CodeBuild project
-•	Source: No source
-•	Artifacts: CodePipeline
-•	Environment: Managed image → Amazon Linux 2 → aws/codebuild/standard:7.0 → Python 3.11
-•	Buildspec: Use a buildspec file (CodeBuild will read buildspec.yml from the input artifact it receives from the pipeline)
-•	Name: pdf-compress-build
- 
-4. CodePipeline
+2.	Platform: Python
+
+3.	Application name: pdf-compress
+
+4.	Environment name: pdf-compress-env
+
+5.	Application code: “Sample application” (for first launch)
+
+6.	Roles:
+o	Service role: aws-elasticbeanstalk-service-role
+o	EC2 instance profile: aws-elasticbeanstalk-ec2-role
+✅ After creation, confirm that the environment is Green.
+________________________________________
+🔧 A4. CodeBuild Project
+Setting	Value
+Source	No source
+Artifacts	CodePipeline
+Environment	Managed image → Amazon Linux 2 → aws/codebuild/standard:7.0 → Python 3.11
+Buildspec	Use the buildspec.yml file (CodeBuild will read it from the input artifact)
+Project Name	pdf-compress-build
+________________________________________
+🔁 A5. CodePipeline Setup
 1.	Console → CodePipeline → Create pipeline
-2.	Source: GitHub via your Connection → select repo/branch
-3.	Build: pdf-compress-build
+2.	Source: GitHub (via your connection) → select repo/branch
+
+3.	Build: Select the pdf-compress-build CodeBuild project
+
 4.	Deploy: Elastic Beanstalk
 o	Application name: pdf-compress
-o	Environment name: pdf-compress-env
-5.	Create pipeline → it runs end-to-end → EB shows Green → open the env URL.
 
- 
+o	Environment name: pdf-compress-env
+
+5.	Create pipeline
+Once complete, CodePipeline will automatically: - Pull your source from GitHub
+- Trigger CodeBuild
+- Deploy the artifacts to Elastic Beanstalk
+✅ When the pipeline completes successfully, your Beanstalk environment should turn Green.
+🌐 Open the environment URL to view your deployed app.
 ________________________________________
+🧩 Summary
+This pipeline fully automates: - Building the Python app via CodeBuild
+- Packaging & deploying to Elastic Beanstalk
+- Continuous delivery from GitHub → CodePipeline → CodeBuild → Beanstalk
