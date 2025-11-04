@@ -64,21 +64,21 @@ Buildspec	Use the buildspec.yml file (CodeBuild will read it from the input arti
 Project Name	pdf-compress-build
 ________________________________________
 ## 4. CodePipeline Setup
-a.	Console → CodePipeline → Create pipeline
-b.	Source: GitHub (via your connection) → select repo/branch
-c.	Build: Select the pdf-compress-build CodeBuild project
-d.	Deploy: Elastic Beanstalk
-  o	Application name: pdf-compress
-  o	Environment name: pdf-compress-env
+a.	Console → CodePipeline → Create pipeline <br>
+b.	Source: GitHub (via your connection) → select repo/branch <br>
+c.	Build: Select the pdf-compress-build CodeBuild project <br>
+d.	Deploy: Elastic Beanstalk <br>
+  - Application name: pdf-compress <br>
+  - Environment name: pdf-compress-env <br>
 
 ## 5.	Create pipeline
-Once complete, CodePipeline will automatically: - Pull your source from GitHub
-- Trigger CodeBuild
-- Deploy the artifacts to Elastic Beanstalk
-✅ When the pipeline completes successfully, your Beanstalk environment should turn Green.
-🌐 Open the environment URL to view your deployed app.
+Once complete, CodePipeline will automatically pull your source from GitHub <br>
+- Trigger CodeBuild <br>
+- Deploy the artifacts to Elastic Beanstalk <br>
+
+When the pipeline completes successfully, your Beanstalk environment should turn Green. Open the environment URL to view your deployed app.
 ________________________________________
-🧩 Summary
-This pipeline fully automates: - Building the Python app via CodeBuild
-- Packaging & deploying to Elastic Beanstalk
-- Continuous delivery from GitHub → CodePipeline → CodeBuild → Beanstalk
+## Summary
+This pipeline fully automates building the Python app via CodeBuild
+- Packaging & deploying to Elastic Beanstalk <br>
+- Continuous delivery from GitHub → CodePipeline → CodeBuild → Beanstalk <br>
